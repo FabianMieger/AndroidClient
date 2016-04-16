@@ -13,6 +13,10 @@ import java.net.URL;
 
 
 
+// The callback interface
+interface MyCallback {
+    void callbackCall();
+}
 
 
 /**
