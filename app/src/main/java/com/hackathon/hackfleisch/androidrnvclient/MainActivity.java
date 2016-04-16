@@ -8,14 +8,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.hackathon.hackfleisch.androidrnvclient.com.hackathon.hackfleisch.androidrnvclient.location.GoogleAPIHelper;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        MainActivity.instance = this;
+
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -25,7 +34,19 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+
+        new GoogleAPIHelper(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        GoogleApiClient client = GoogleAPIHelper.getInstance().getGoogleApiClient();
+        if (client != null) {
+            client.connect();
+        }
     }
 
     @Override
