@@ -1,10 +1,15 @@
 package com.hackathon.hackfleisch.androidrnvclient.com.hackathon.hackfleisch.androidrnvclient.location;
 
 import android.location.Location;
+import android.util.Log;
 import android.widget.EditText;
 
+import com.google.android.gms.location.LocationRequest;
 import com.hackathon.hackfleisch.androidrnvclient.MainActivity;
+import com.hackathon.hackfleisch.androidrnvclient.NetworkStuff;
 import com.hackathon.hackfleisch.androidrnvclient.R;
+
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -40,11 +45,25 @@ public class LocationHandler {
             return;
         }
         try {
+            //MainActivity.instance.run(MainActivity.Rqmodes.POST_MY_STATS);
+            Log.v("BLA", NetworkStuff.getResponse());
             text.setText(updatedLocation.getLatitude() + " / " + updatedLocation.getLongitude() +
                     " / " + DateFormat.getTimeInstance().format(new Date()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static JSONObject getStationAndDepaturesData() throws Exception {
+        Location loc = getLocationHelper().getCurrentLocation();
+
+        JSONObject json = new JSONObject();
+        JSONObject position = new JSONObject();
+        position.put("latitude", String.valueOf(loc.getLatitude()));
+        position.put("longitude", String.valueOf(loc.getLatitude()));
+        json.put("position", position);
+
+        return json;
     }
 
 }
